@@ -16,7 +16,7 @@ function makemarker(Parent, Adornee, Color, Size, Size2)
     e.Size = UDim2.new(Size, Size2, Size, Size2)
     e.AlwaysOnTop = true
     local a = Instance.new("Frame", e)
-    a.Size = UDim2.new(1, 0, 9, 0)
+    a.Size = UDim2.new(1, 0, 0.7, 0)
     a.BackgroundTransparency = 3
     a.BackgroundColor3 = Color
     local g = Instance.new("UICorner", a)
@@ -55,7 +55,7 @@ end)
 spawn(function()
     placemarker.Anchored = true
     placemarker.CanCollide = false
-    placemarker.Size = Vector3.new(2, 2, 2)
+    placemarker.Size = Vector3.new(2, 2, 5)
     placemarker.Transparency = 0.100
     makemarker(placemarker, placemarker, Color3.fromRGB(82, 112, 234), 0.40, 0)
 end)    

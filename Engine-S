@@ -1,0 +1,336 @@
+local CC = game:GetService"Workspace".CurrentCamera
+local Plr
+local enabled = false
+local accomidationfactor = 0.1316942
+local mouse = game.Players.LocalPlayer:GetMouse()
+local placemarker = Instance.new("Part", game.Workspace)
+
+function SendNotification(e, a, dur)
+    game.StarterGui:SetCore("SendNotification",  {Title = "Engine-S" ; Text = a; Icon = "http://www.roblox.com/asset/?id=8850953349"; Duration = dur;})
+end
+
+function makemarker(Parent, Adornee, Color, Size, Size2)
+    local e = Instance.new("BillboardGui", Parent)
+    e.Name = "PP"
+    e.Adornee = Adornee
+    e.Size = UDim2.new(Size, Size2, Size, Size2)
+    e.AlwaysOnTop = true
+    local a = Instance.new("Frame", e)
+    a.Size = UDim2.new(1, 0, 9, 0)
+    a.BackgroundTransparency = 3
+    a.BackgroundColor3 = Color
+    local g = Instance.new("UICorner", a)
+    g.CornerRadius = UDim.new(50, 50)
+    return(e)
+end
+
+    
+local data = game.Players:GetPlayers()
+function noob(player)
+    repeat wait() until player.Character
+    local handler = makemarker(guimain, player.Character:WaitForChild("HumanoidRootPart"), Color3.fromRGB(107, 184, 255), 0.3, 3)
+    handler.Name = player.Name
+    player.CharacterAdded:connect(function(Char) handler.Adornee = Char:WaitForChild("HumanoidRootPart") end)
+
+
+    spawn(function()
+        while wait() do
+            if player.Character then
+                TextLabel.Text = player.Name..tostring(player:WaitForChild("leaderstats").Wanted.Value).." | "..tostring(math.floor(player.Character:WaitForChild("Humanoid").Health))
+            end
+        end
+    end)
+end
+
+for i = 1, #data do
+    if data[i] ~= game.Players.LocalPlayer then
+        noob(data[i])
+    end
+end
+
+game.Players.PlayerAdded:connect(function(Player)
+    noob(Player)
+end)
+
+spawn(function()
+    placemarker.Anchored = true
+    placemarker.CanCollide = false
+    placemarker.Size = Vector3.new(2, 2, 2)
+    placemarker.Transparency = 0.100
+    makemarker(placemarker, placemarker, Color3.fromRGB(82, 112, 234), 0.40, 0)
+end)    
+
+mouse.KeyDown:Connect(function(k)
+    if k ~= "q" then return end
+    if enabled then
+        enabled = false
+        SendNotification('Engine-S', "Unlocked", 3)
+        guimain[Plr.Name].Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    else
+        enabled = true 
+        Plr = getClosestPlayerToCursor()
+        SendNotification('Engine-S', "Locked onto "..Plr.Name, 3)
+        guimain[Plr.Name].Frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    end    
+end)
+
+function getClosestPlayerToCursor()
+    local closestPlayer
+    local shortestDistance = math.huge
+
+    for i, v in pairs(game.Players:GetPlayers()) do
+        if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChild("HumanoidRootPart") then
+            local pos = CC:WorldToViewportPoint(v.Character.PrimaryPart.Position)
+            local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(mouse.X, mouse.Y)).magnitude
+                if magnitude < shortestDistance then
+                closestPlayer = v
+                shortestDistance = magnitude
+            end
+        end
+    end
+    return closestPlayer
+end
+
+game:GetService"RunService".Stepped:connect(function()
+    if enabled and Plr.Character and Plr.Character:FindFirstChild("HumanoidRootPart") then
+        placemarker.CFrame = CFrame.new(Plr.Character.HumanoidRootPart.Position+(Plr.Character.HumanoidRootPart.Velocity*accomidationfactor))
+    else
+        placemarker.CFrame = CFrame.new(0, 9999, 0)
+    end
+end)
+
+local mt = getrawmetatable(game)
+local old = mt.__namecall
+setreadonly(mt, false)
+mt.__namecall = newcclosure(function(...)
+local args = {...}
+    if enabled and getnamecallmethod() == "FireServer" and args[2] == "UpdateMousePos" then
+        args[3] = Plr.Character.HumanoidRootPart.Position+(Plr.Character.HumanoidRootPart.Velocity*accomidationfactor)
+        return old(unpack(args))
+    end
+    return old(...)
+end)
+
+---
+
+local L_393_ = game.Players.LocalPlayer.Character
+	local L_394_ = L_393_:WaitForChild("Head")
+	local L_395_ = L_394_:WaitForChild("face")
+	L_395_.Transparency = 1 --Texture = "rbxassetid://209712379"
+	L_394_.Transparency = 1
+
+---
+local L_396_ = game.Players.LocalPlayer.Character
+	local L_397_ = game.Players.LocalPlayer.Character
+	local L_398_ = L_396_.Head
+	local L_399_ = L_398_.face
+	local L_400_ = L_397_.RightFoot
+	local L_401_ = L_397_.RightLowerLeg
+	local L_402_ = L_397_.RightUpperLeg
+	local L_403_ = L_397_.LeftFoot
+	local L_404_ = L_397_.LeftLowerLeg
+	local L_405_ = L_397_.LeftUpperLeg
+    
+    -- Right
+	L_400_.MeshId = "http://www.roblox.com/asset/?id=902942093"
+	L_401_.MeshId = "http://www.roblox.com/asset/?id=902942093"
+	L_402_.MeshId = "http://www.roblox.com/asset/?id=902942096"
+	L_402_.TextureID = "http://roblox.com/asset/?id=902843398"
+	L_400_.Transparency = 1
+	L_401_.Transparency = 1
+    
+
+---
+local AnimationChanger = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local TopBar = Instance.new("Frame")
+local Close = Instance.new("TextButton")
+local TextLabel = Instance.new("TextLabel")
+local TextLabel_2 = Instance.new("TextLabel")
+local NormalTab = Instance.new("Frame")
+local A_Astronaut = Instance.new("TextButton")
+local A_Bubbly = Instance.new("TextButton")
+local A_Cartoony = Instance.new("TextButton")
+local A_Elder = Instance.new("TextButton")
+local A_Knight = Instance.new("TextButton")
+local A_Levitation = Instance.new("TextButton")
+local A_Mage = Instance.new("TextButton")
+local A_Ninja = Instance.new("TextButton")
+local A_Pirate = Instance.new("TextButton")
+local A_Robot = Instance.new("TextButton")
+local A_Stylish = Instance.new("TextButton")
+local A_SuperHero = Instance.new("TextButton")
+local A_Toy = Instance.new("TextButton")
+local A_Vampire = Instance.new("TextButton")
+local A_Werewolf = Instance.new("TextButton")
+local A_Zombie = Instance.new("TextButton")
+local Category = Instance.new("TextLabel")
+local SpecialTab = Instance.new("Frame")
+local A_Patrol = Instance.new("TextButton")
+local A_Confident = Instance.new("TextButton")
+local A_Popstar = Instance.new("TextButton")
+local A_Cowboy = Instance.new("TextButton")
+local A_Ghost = Instance.new("TextButton")
+local A_Sneaky = Instance.new("TextButton")
+local A_Princess = Instance.new("TextButton")
+local Category_2 = Instance.new("TextLabel")
+local OtherTab = Instance.new("Frame")
+local Category_3 = Instance.new("TextLabel")
+local A_None = Instance.new("TextButton")
+local A_Anthro = Instance.new("TextButton")
+local Animate = game.Players.LocalPlayer.Character.Animate
+
+
+Animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=616163682"
+
+---
+local Settings = {
+    Aimlock = {
+        AimPart = "LowerTorso",
+        AimlockKey = "Q",
+        Prediction = 0.143,
+
+        FOVEnabled = false,
+        FOVShow = false,
+        FOVSize = 30,
+
+        Enabled = false
+    },
+    SilentAim = {
+        Key = "C",
+        AimAt = "LowerTorso",
+        PredictionAmount = 0.139,
+
+        FOVEnabled = false,
+        FOVShow = false,
+        FOVSize = 0,
+
+        Enabled = false,
+        KeyToLockOn = false
+    },
+    CFSpeed = {
+        Speed = 1.7,
+        
+        Enabled = true,
+        Toggled = true;
+
+        Key = "Z"
+    }
+}
+
+--// Variables (Service)
+
+local Players = game:GetService("Players")
+local RS = game:GetService("RunService")
+local WS = game:GetService("Workspace")
+local GS = game:GetService("GuiService")
+local SG = game:GetService("StarterGui")
+local UIS = game:GetService("UserInputService")
+
+--// Variables (regular)
+
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+local Camera = WS.CurrentCamera
+local GetGuiInset = GS.GetGuiInset
+
+local AimlockState = false
+local aimLocked
+local lockVictim
+
+--// Anti-Cheat
+
+repeat wait() until LP.Character:FindFirstChild("FULLY_LOADED_CHAR");
+
+for _,ac in pairs(LP.Character:GetChildren()) do
+    if (ac:IsA("Script") and ac.Name ~= "Animate" and ac.Name ~= "Health") then
+        ac:Destroy();
+    end;
+end;
+
+LP.Character.ChildAdded:Connect(function(child)
+    if (child:IsA("Script") and child.Name ~= "Animate" and ac.Name ~= "Health") then
+        child:Destroy();
+    end;
+end);
+
+--// CFrame Speed
+
+local userInput = game:GetService('UserInputService')
+local runService = game:GetService('RunService')
+
+Mouse.KeyDown:connect(function(Key)
+    local cfKey = Settings.CFSpeed.Key:lower()
+    if (Key == cfKey) then
+        if (Settings.CFSpeed.Toggled) then
+            Settings.CFSpeed.Enabled = not Settings.CFSpeed.Enabled
+            if (Settings.CFSpeed.Enabled == true) then
+                repeat
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.Humanoid.MoveDirection * Settings.CFSpeed.Speed
+                    game:GetService("RunService").Stepped:wait()
+                until Settings.CFSpeed.Enabled == false
+            end
+        end
+    end
+end)
+
+--// FOV Circle
+
+local fov = Drawing.new("Circle")
+fov.Filled = false
+fov.Transparency = 1
+fov.Thickness = 1
+fov.Color = Color3.fromRGB(255, 255, 0)
+
+--// Functions
+
+function updateLock()
+    if Settings.Aimlock.FOVEnabled == true and Settings.Aimlock.FOVShow == true then
+        if fov then
+            fov.Radius = Settings.Aimlock.FOVSize * 2
+            fov.Visible = Settings.Aimlock.FOVShow
+            fov.Position = Vector2.new(Mouse.X, Mouse.Y + GetGuiInset(GS).Y)
+
+            return fov
+        end
+    else
+        Settings.Aimlock.FOVShow = false
+        fov.Visible = false
+    end
+end
+
+function WTVP(arg)
+    return Camera:WorldToViewportPoint(arg)
+end
+
+function WTSP(arg)
+    return Camera.WorldToScreenPoint(Camera, arg)
+end
+
+function getClosest()
+    local closestPlayer
+    local shortestDistance = math.huge
+
+    for i, v in pairs(game.Players:GetPlayers()) do
+        local notKO = v.Character:WaitForChild("BodyEffects")["K.O"].Value ~= true
+        local notGrabbed = v.Character:FindFirstChild("GRABBING_COINSTRAINT") == nil
+        
+        if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChild(Settings.Aimlock.AimPart) and notKO and notGrabbed then
+            local pos = Camera:WorldToViewportPoint(v.Character.PrimaryPart.Position)
+            local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).magnitude
+            
+            if (Settings.Aimlock.FOVEnabled) then
+                if (fov.Radius > magnitude and magnitude < shortestDistance) then
+                    closestPlayer = v
+                    shortestDistance = magnitude
+                end
+            else
+                if (magnitude < shortestDistance) then
+                    closestPlayer = v
+                    shortestDistance = magnitude
+                end
+            end
+        end
+    end
+    return closestPlayer
+end

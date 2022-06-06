@@ -16,7 +16,7 @@ function makemarker(Parent, Adornee, Color, Size, Size2)
     e.Size = UDim2.new(Size, Size2, Size, Size2)
     e.AlwaysOnTop = true
     local a = Instance.new("Frame", e)
-    a.Size = UDim2.new(1, 0, 0.7, 0)
+    a.Size = UDim2.new(0.8, 1.8.8 1.4
     a.BackgroundTransparency = 3
     a.BackgroundColor3 = Color
     local g = Instance.new("UICorner", a)

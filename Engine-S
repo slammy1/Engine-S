@@ -55,7 +55,7 @@ end)
 spawn(function()
     placemarker.Anchored = true
     placemarker.CanCollide = false
-    placemarker.Size = Vector3.new(1, 1, 5)
+    placemarker.Size = Vector3.new(1, 1, 4)
     placemarker.Transparency = 0.100
     makemarker(placemarker, placemarker, Color3.fromRGB(82, 112, 234), 0.40, 0)
 end)    
